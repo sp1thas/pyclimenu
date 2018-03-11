@@ -2,7 +2,7 @@
 The easy way to create command line menus
 
 
-## Usage
+## Demo
 ```python
 >>> def first_func():
 ...     return 'first item'
@@ -21,4 +21,11 @@ The easy way to create command line menus
 ... ]
 >>> menu = pyclimenu.Menu(items=items)
 >>> menu.display()
+```
+## Demo Output
+```bash
+ [0] First item
+ [1] Second item
+ [2] Exit
+Select option: > 
 ```
