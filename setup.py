@@ -10,7 +10,7 @@ with open(path.join(here_path, 'README.rst')) as f:
 setup(
   name = 'pyclimenu',
   packages = ['pyclimenu'],
-  version = '0.1.3.3',
+  version = '0.1.3.5',
   description = 'The easy way to create command line menus',
   author = 'Panagiotis Simakis',
   author_email = 'simakis@autistici.org',
