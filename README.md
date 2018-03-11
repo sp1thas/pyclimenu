@@ -4,6 +4,7 @@ The easy way to create command line menus
 
 ## Demo
 ```python
+>>> from pyclimenu.pyclimenu import Menu
 >>> def first_func():
 ...     return 'first item'
 ... 
