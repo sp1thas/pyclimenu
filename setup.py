@@ -5,12 +5,12 @@ here_path = path.abspath(path.dirname(__file__))
 
 
 with open(path.join(here_path, 'README.rst')) as f:
-  long_description = f.read()
+    long_description = f.read()
 
 setup(
   name = 'pyclimenu',
   packages = ['pyclimenu'],
-  version = '0.1.3.5',
+  version = '0.1.1.1',
   description = 'The easy way to create command line menus',
   author = 'Panagiotis Simakis',
   author_email = 'simakis@autistici.org',
