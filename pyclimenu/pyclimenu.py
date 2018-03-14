@@ -22,7 +22,10 @@ class Menu():
     self.items = []
     self.set_exit_item(msg=exit_msg)
     if isinstance(items, list):
-      self.items = items
+      for item in items:
+        self.add_item(item)
+    if isinstance(items, dict):
+      self.add_item(items)
     else: self.items = []
 
   def display(self, header=None, choose_msg=None):
@@ -98,12 +101,22 @@ class Menu():
     """
     os.system('clear')
 
-  def add_item(item=None):
+  def add_item(self, item=None, label=None, callback=None):
     """
     Add menu item
     :param item: menu item
     :type item: dict
+    :param label: item label
+    :type label: str
+    :param callback: item callback function
+    :type callback: function
     :return: Nada
     :rtype: None
     """
-    self.append(item)
+    if item:
+      self.items.append(item)
+    else:
+      self.items.append({
+        'label': label,
+        'callback': callback
+      })
