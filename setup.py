@@ -6,7 +6,7 @@ def readme():
 setup(
   name = 'pyclimenu',
   packages = ['pyclimenu'],
-  version = '0.1.1.9',
+  version = '0.1.2',
   description = 'The easy way to create command line menus',
   author = 'Panagiotis Simakis',
   author_email = 'simakis@autistici.org',
