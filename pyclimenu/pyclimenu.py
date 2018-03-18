@@ -10,7 +10,7 @@ class Menu():
     
       Usage:
       ------
-        >>> mn = Menu(items=[{'label': 'sample 1', 'callback': some_function}]
+        >>> mn = Menu(items=[{'label': 'sample 1', 'callback': some_function, 'params': {'param1': 'value', ...}}]
 
     :param items: menu items. list of dictionaries
     :type items: list
@@ -49,15 +49,16 @@ class Menu():
         print('', '-'*len(header))
       for idx, item in enumerate(self.items):
         print(ln_patt % (idx, item.get('label', 'no label')))
-      print(ln_patt % (idx+1, self.exit_item.get('label')))
+      print(ln_patt % (len(self.items), self.exit_item.get('label')))
       choice = self.getChoice()
       if choice is False:
         self.clear()
         continue
       else:
         break
+    self.runChoice(choice)
 
-  def runChoice(idx=None):
+  def runChoice(self, idx=None):
     """
     Run user's choice
     :param idx: item index
@@ -66,7 +67,8 @@ class Menu():
     :rtype: None
     """
     call_func = self.items[idx].get('callback', sys.exit)
-    call_func()
+    func_params = self.items[idx].get('params', {})
+    call_func(**func_params)
 
   def set_exit_item(self, msg=None):
     """
@@ -101,7 +103,7 @@ class Menu():
     """
     os.system('clear')
 
-  def add_item(self, item=None, label=None, callback=None):
+  def add_item(self, item=None, label=None, callback=None, params=None):
     """
     Add menu item
     :param item: menu item
@@ -110,6 +112,8 @@ class Menu():
     :type label: str
     :param callback: item callback function
     :type callback: function
+    :param params: function parameters
+    :type params: dict
     :return: Nada
     :rtype: None
     """
@@ -118,5 +122,6 @@ class Menu():
     else:
       self.items.append({
         'label': label,
-        'callback': callback
+        'callback': callback,
+        'params': params,
       })
