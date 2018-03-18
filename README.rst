@@ -1,7 +1,12 @@
 pyclimenu
 =========
 
-The easy way to create command line menus
+Install
+-------
+
+.. code:: bash
+
+    $ pip install pyclimenu
 
 Demo
 ----
