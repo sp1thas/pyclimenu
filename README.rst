@@ -13,7 +13,7 @@ Demo
 
 .. code:: python
 
-    >>> from pyclimenu.pyclimenu import Menu
+    >>> from pyclimenu import Menu
     >>> def first_function(a=0):
     ...     print(a*2)
     ...
