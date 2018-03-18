@@ -9,30 +9,21 @@ Demo
 .. code:: python
 
     >>> from pyclimenu.pyclimenu import Menu
-    >>> def first_func():
-    ...     return 'first item'
-    ... 
-    >>> def second_func():
-    ...     return 'second item'
+    >>> def first_function(a=0):
+    ...     print(a*2)
     ...
-    >>> import pyclimenu
-    >>> items = [
-    ...     {'label': 'First item',
-    ...      'callback': first_func
-    ...     },
-    ...     {'label': 'Second item',
-    ...      'callback': second_func,
-    ...     }
-    ... ]
-    >>> menu = pyclimenu.Menu(items=items)
+    >>> def second_function(a=0):
+    ...     print(a*4)
+    ...
+    >>> mn = pyclimenu.Menu()
+    >>> mn.add_item(label='first function', callback=first_function, params={'a': 2})
+    >>> mn.add_item(label='second function', callback=second_function, params={'a': 1})
     >>> menu.display()
 
-Demo Output
------------
-
-.. code:: bash
-
-     [0] First item
-     [1] Second item
+     [0] first function
+     [1] second function
      [2] Exit
-    Select option: > 
+    Select option: > 1
+    4
+    >>>
+
