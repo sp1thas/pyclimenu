@@ -125,3 +125,35 @@ class Menu():
         'callback': callback,
         'params': params,
       })
+
+  def set_colors(self, **kwargs):
+    """
+    Set colors for the output
+    
+    :param num_bold: numbering bold
+    :type num_bold: bool
+    :param num_fg: numbering foreground color
+    :type num_fg: str
+    :param num_bg: numbering background color
+    :type num_bg: str
+    :param label_bold: label bold
+    :type label_bold: bool
+    :param label_fg: label foregroud color
+    :type label_fg: str
+    :param label_bg: label background color
+    :type label_bg: str
+    :return: Nada
+    """
+    num_bld = kwargs.get('num_bold')
+    if num_bld: self.num_bld = colors.bold
+    num_fg = kwargs.get('num_fg')
+    if num_fg: self.num_fg = getattr(colors.fg, num_fg)
+    num_bg = kwargs.get('num_bg')
+    if num_bg: self.num_bg = getattr(colors.bg, num_bg)
+    
+    label_bld = kwargs.get('label_bold')
+    if label_bld: self.label_bld = colors.bold
+    label_fg = kwargs.get('label_fg')
+    if label_fg: self.label_fg = getattr(colors.fg, label_fg)
+    label_bg = kwargs.get('label_bg')
+    if label_bg: self.label_bg = getattr(colors.bg, label_bg)

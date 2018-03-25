@@ -1,1 +1,1 @@
-from pyclimenu.pyclimenu import Menu
+from pyclimenu import Menu
