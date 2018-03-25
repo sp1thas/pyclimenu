@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 import sys, os
+from colors import Colors
 
 class Menu():
   def __init__(self, items=None, exit_msg=None):
@@ -19,6 +20,7 @@ class Menu():
     :return: Nada
     :rtype: None
     """
+    self.colors = Colors()
     self.items = []
     self.set_exit_item(msg=exit_msg)
     if isinstance(items, list):
@@ -145,15 +147,15 @@ class Menu():
     :return: Nada
     """
     num_bld = kwargs.get('num_bold')
-    if num_bld: self.num_bld = colors.bold
+    if num_bld: self.num_bld = self.colors.bold
     num_fg = kwargs.get('num_fg')
-    if num_fg: self.num_fg = getattr(colors.fg, num_fg)
+    if num_fg: self.num_fg = getattr(self.colors.fg, num_fg)
     num_bg = kwargs.get('num_bg')
-    if num_bg: self.num_bg = getattr(colors.bg, num_bg)
+    if num_bg: self.num_bg = getattr(self.colors.bg, num_bg)
     
     label_bld = kwargs.get('label_bold')
-    if label_bld: self.label_bld = colors.bold
+    if label_bld: self.label_bld = self.colors.bold
     label_fg = kwargs.get('label_fg')
-    if label_fg: self.label_fg = getattr(colors.fg, label_fg)
+    if label_fg: self.label_fg = getattr(self.colors.fg, label_fg)
     label_bg = kwargs.get('label_bg')
-    if label_bg: self.label_bg = getattr(colors.bg, label_bg)
+    if label_bg: self.label_bg = getattr(self.colors.bg, label_bg)
