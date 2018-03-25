@@ -3,8 +3,8 @@ class Colors:
     Colors class
     stolen from here: https://stackoverflow.com/a/26445590/6779252
     """
-    rst='\033[0m'
-    bld='\033[01m'
+    reset='\033[0m'
+    bold='\033[01m'
     disable='\033[02m'
     underline='\033[04m'
     reverse='\033[07m'
