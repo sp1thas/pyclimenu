@@ -20,10 +20,10 @@ Demo
     >>> def second_function(a=0):
     ...     print(a*4)
     ...
-    >>> mn = pyclimenu.Menu()
+    >>> mn = Menu()
     >>> mn.add_item(label='first function', callback=first_function, params={'a': 2})
     >>> mn.add_item(label='second function', callback=second_function, params={'a': 1})
-    >>> menu.display()
+    >>> mn.display()
 
      [0] first function
      [1] second function
