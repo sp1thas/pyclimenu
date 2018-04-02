@@ -1,17 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-import sys, os
+import sys
+import os
 from colors import Colors
 
 
-class Menu():
+class Menu:
     def __init__(self, items=None, exit_msg=None):
         """
         Initialize menu
 
           Usage:
           ------
+            >>> def some_function(param1=1, **kwargs):
+            ...     pass
             >>> mn = Menu(items=[{'label': 'sample 1', 'callback': some_function, 'params': {'param1': 'value', ...}}]
 
         :param items: menu items. list of dictionaries
@@ -24,6 +27,11 @@ class Menu():
         self.colors = Colors()
         self.items = []
         self.set_exit_item(msg=exit_msg)
+        self.choose_msq = 'Select option: > '
+        self.exit_item = {
+            'label': 'Exit',
+            'callback': sys.exit
+        }
         if isinstance(items, list):
             for item in items:
                 self.add_item(item)
@@ -45,8 +53,7 @@ class Menu():
         self.clear()
         if choose_msg:
             self.choose_msq = choose_msg
-        else:
-            self.choose_msq = 'Select option: > '
+
         num_patt = '%' + str(len(str(len(self.items)))) + 'd'
         ln_patt = ' [%s] %s' % (num_patt, '%s')
         while True:
@@ -56,15 +63,15 @@ class Menu():
             for idx, item in enumerate(self.items):
                 print(ln_patt % (idx, item.get('label', 'no label')))
             print(ln_patt % (len(self.items), self.exit_item.get('label')))
-            choice = self.getChoice()
+            choice = self.get_choice()
             if choice is False:
                 self.clear()
                 continue
             else:
                 break
-        self.runChoice(choice)
+        self.run_choice(choice)
 
-    def runChoice(self, idx=None):
+    def run_choice(self, idx=None):
         """
         Run user's choice
         :param idx: item index
@@ -88,13 +95,10 @@ class Menu():
         :return: Nada
         :rtype: None
         """
-        self.exit_item = {
-            'label': 'Exit',
-            'callback': sys.exit
-        }
-        if msg: self.exit_item['label'] = msg
+        if msg:
+            self.exit_item['label'] = msg
 
-    def getChoice(self):
+    def get_choice(self):
         """
         Manipulate user's choice
         """
@@ -104,10 +108,9 @@ class Menu():
         except KeyboardInterrupt:
             print('Exiting...')
             sys.exit()
-        except Exception as e:
-            return False
 
-    def clear(self):
+    @staticmethod
+    def clear():
         """
         Clear terminal
         """
