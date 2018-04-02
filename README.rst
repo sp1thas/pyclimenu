@@ -32,3 +32,6 @@ Demo
     4
     >>>
 
+Todo
+----
+    - Colorfull print
