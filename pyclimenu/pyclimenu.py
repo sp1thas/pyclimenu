@@ -24,6 +24,12 @@ class Menu:
         :return: Nada
         :rtype: None
         """
+        self.num_bg = ''
+        self.num_bld = ''
+        self.num_fg = ''
+        self.label_bg = ''
+        self.label_bld = ''
+        self.label_fg = ''
         self.colors = Colors()
         self.items = []
         self.set_exit_item(msg=exit_msg)
@@ -139,11 +145,28 @@ class Menu:
                 'params': params,
             })
 
-    def print_row(self):
+    def print_row(self, idx, label):
         """
-        Print Every Row
+        Print Every row (numeric and label)
+        :param idx: numeric
+        :type idx: str or int
+        :param label: Message
+        :type label: str
+        :return: Nada
         """
-        pass
+        print(''.join([
+            self.num_bld,
+            self.num_bg,
+            self.num_fg,
+            str(idx),
+            self.colors.reset,
+            self.label_bld,
+            self.label_bg,
+            self.label_fg,
+            label,
+            self.colors.reset
+            ])
+        )
 
     def set_colors(self, **kwargs):
         """
