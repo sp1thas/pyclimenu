@@ -24,13 +24,14 @@ class Menu:
         :return: Nada
         :rtype: None
         """
+
+        self.colors = Colors()
         self.num_bg = ''
         self.num_bld = ''
         self.num_fg = ''
         self.label_bg = ''
         self.label_bld = ''
         self.label_fg = ''
-        self.colors = Colors()
         self.items = []
         self.set_exit_item(msg=exit_msg)
         self.choose_msq = 'Select option: > '
@@ -60,15 +61,13 @@ class Menu:
         if choose_msg:
             self.choose_msq = choose_msg
 
-        num_patt = '%' + str(len(str(len(self.items)))) + 'd'
-        ln_patt = ' [%s] %s' % (num_patt, '%s')
+
         while True:
             if header:
                 print(' %s' % header)
                 print('', '-' * len(header))
             for idx, item in enumerate(self.items):
-                print(ln_patt % (idx, item.get('label', 'no label')))
-            print(ln_patt % (len(self.items), self.exit_item.get('label')))
+                self.print_row(idx, item.get('label', 'no label'))
             choice = self.get_choice()
             if choice is False:
                 self.clear()
@@ -122,7 +121,7 @@ class Menu:
         """
         os.system('clear')
 
-    def add_item(self, item=None, label=None, callback=None, params=None):
+    def add_item(self, item=None, label=None, callback=None, params={}):
         """
         Add menu item
         :param item: menu item
@@ -154,19 +153,11 @@ class Menu:
         :type label: str
         :return: Nada
         """
-        print(''.join([
-            self.num_bld,
-            self.num_bg,
-            self.num_fg,
-            str(idx),
-            self.colors.reset,
-            self.label_bld,
-            self.label_bg,
-            self.label_fg,
-            label,
-            self.colors.reset
-            ])
-        )
+        num_st = self.num_bg+self.num_bld+self.num_fg
+        labl_st = self.label_bg+self.label_bld+self.label_fg
+        num_patt = '%' + str(len(str(len(self.items)))) + 'd'
+        ln_patt = '%s [%s] %s %s %s %s' % (num_st, num_patt, self.colors.reset, labl_st, '%s', self.colors.reset)
+        print(ln_patt % (idx, label))
 
     def set_colors(self, **kwargs):
         """
