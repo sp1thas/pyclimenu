@@ -9,7 +9,7 @@ Install
 
 .. code:: bash
 
-    $ pip install git+ssh://git@github.com/sp1thas/pyclimenu.git
+    $ pip install git+https://github.com/sp1thas/pyclimenu.git
 
 Demo
 ----

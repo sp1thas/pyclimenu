@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-from __future__ import print_function
-import sys
-import os
-from colors import Colors
-
-
 class Menu:
     def __init__(self, items=None, exit_msg=None):
         """
