@@ -1,1 +1,2 @@
-from pyclimenu import Menu
+from .colors import Colors
+from .pyclimenu import Menu

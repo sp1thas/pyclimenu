@@ -1,12 +1,15 @@
 pyclimenu
 =========
 
+This python module creates simple command line menus. Just define the callable and the label of each option and voila!
+Foreground and background color of numbers and labels is adjustable.
+
 Install
 -------
 
 .. code:: bash
 
-    $ pip install pyclimenu
+    $ pip install git+ssh://git@github.com/sp1thas/pyclimenu.git
 
 Demo
 ----

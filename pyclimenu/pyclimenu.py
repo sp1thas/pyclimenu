@@ -121,7 +121,7 @@ class Menu:
         """
         os.system('clear')
 
-    def add_item(self, item=None, label=None, callback=None, params={}):
+    def add_item(self, item=None, label=None, callback=None, color=None, params={}):
         """
         Add menu item
         :param item: menu item
@@ -190,3 +190,15 @@ class Menu:
         if label_fg: self.label_fg = getattr(self.colors.fg, label_fg)
         label_bg = kwargs.get('label_bg')
         if label_bg: self.label_bg = getattr(self.colors.bg, label_bg)
+
+if __name__ == '__main__':
+    def a():
+       print('''
+       Let's Rock!
+       ''')
+    mn = Menu()
+    mn.add_item(label='The easy way', callback=a, params={})
+    mn.add_item(label='to create', callback=a, params={})
+    mn.add_item(label='command line menus', callback=a, params={})
+    mn.set_colors(num_fg='cyan', num_bld=True, label_fg='blue', label_bld=True)
+    mn.display(header='pyclimenu')
