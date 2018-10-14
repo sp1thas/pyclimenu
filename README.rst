@@ -34,4 +34,3 @@ Demo
 
 Todo
 ----
-    - Colorfull print
