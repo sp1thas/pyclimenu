@@ -1,4 +1,4 @@
-class Colors:
+class Colors():
     """
     Colors class
     stolen from here: https://stackoverflow.com/a/26445590/6779252
