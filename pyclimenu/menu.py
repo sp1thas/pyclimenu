@@ -32,7 +32,7 @@ class Menu:
         self.label_fg = ''
         self.items = []
         self.results = None
-        self.set_exit_item(msg=exit_msg)
+        self.set_exit_item()
         self.choose_msq = 'Select option: > '
         self.exit_item = {
             'label': 'Exit',
@@ -59,8 +59,9 @@ class Menu:
         self.clear()
         if choose_msg:
             self.choose_msq = choose_msg
-
+        print('sd')
         while True:
+            print('ggg')
             if header:
                 print(' %s' % header)
                 print('', '-' * len(header))
@@ -93,16 +94,25 @@ class Menu:
         self.results = call_func(*args, **kwargs)
         return self.results
 
-    def set_exit_item(self, msg=None):
+    def set_exit_item(self, label=None, callable=None, args=None, kwargs=None):
         """
         Set exit item
-        :param msg: exit message. default: Exit
-        :type msg: str
-        :return: Nada
-        :rtype: None
+        :param label: exit item label
+        :type label: str
+        :param callable: exit callable
+        :type callable: callable
+        :param args: exit arguments
+        :type args: tuple
+        :param kwargs; exit keyword argument
+        :type kwargs: dictionary
+        :return; Nada
         """
-        if msg:
-            self.exit_item['label'] = msg
+        self.add_item({
+            'label': label if label else 'Exit',
+            'callable': callable if callable else sys.exit,
+            'args': args if args else (),
+            'kwargs': kwargs if kwargs else {}
+        })
 
     def get_choice(self):
         """
@@ -122,7 +132,7 @@ class Menu:
         """
         os.system('clear')
 
-    def add_item(self, item=None, label=None, callback=None, args=(), kwargs={}):
+    def add_item(self, item=None, label=None, callback=None, args=None, kwargs=None):
         """
         Add menu item
         :param item: menu item
@@ -142,10 +152,10 @@ class Menu:
             self.items.append(item)
         else:
             self.items.append({
-                'label': label,
+                'label': label if label else callback.__name__,
                 'callback': callback,
-                'args': args,
-                'kwargs': kwargs
+                'args': args if args else (),
+                'kwargs': kwargs if kwargs else {}
             })
 
     def print_row(self, idx, label):
@@ -202,8 +212,9 @@ if __name__ == '__main__':
         Let's Rock!
         ''')
     mn = Menu()
-    mn.add_item(label='The easy way', callback=a, args=(), kwargs={})
+    mn.add_item(label=None, callback=a, args=(), kwargs={})
     mn.add_item(label='to create', callback=a, args=(), kwargs={})
     mn.add_item(label='command line menus', callback=a, args=(), kwargs={})
+    mn.set_exit_item(label='ooookso re')
     mn.set_colors(num_fg='cyan', num_bld=True, label_fg='blue', label_bld=True)
     mn.run(header='pyclimenu')
