@@ -59,9 +59,7 @@ class Menu:
         self.clear()
         if choose_msg:
             self.choose_msq = choose_msg
-        print('sd')
         while True:
-            print('ggg')
             if header:
                 print(' %s' % header)
                 print('', '-' * len(header))
