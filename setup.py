@@ -1,11 +1,9 @@
-from distutils.core import setup
 from pyclimenu import __version__
+from distutils.core import setup
 
-
-readme_file = open('README.md', 'r')
-long_description = readme_file.read()
-readme_file.close()
-
+def readme():
+    with open('README.rst') as f:
+        return f.read()
 setup(
   name = 'pyclimenu',
   packages = ['pyclimenu'],
@@ -16,7 +14,8 @@ setup(
   url = 'https://github.com/sp1thas/pyclimenu',
   download_url = 'https://github.com/sp1thas/pyclimenu/archive/master.zip',
   keywords = ['menu'],
+  include_package_data=True,
   classifiers = [],
-  long_description=long_description,
-  long_description_content_type='text/markdown'
+  zip_safe=False,
+  long_description=readme()
 )
