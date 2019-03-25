@@ -61,8 +61,9 @@ class Menu:
             self.choose_msq = choose_msg
         while True:
             if header:
+                max_line_length = max(len(_) for _ in header.split('\n'))
                 print(' %s' % header)
-                print('', '-' * len(header))
+                print('', '-' * max_line_length)
             for idx, item in enumerate(self.items):
                 self.print_row(idx, item.get('label', 'no label'))
             choice = self.get_choice()
