@@ -5,7 +5,7 @@ from .colors import Colors
 
 
 class Menu:
-    def __init__(self, items=None, exit_msg=None):
+    def __init__(self, items=None, exit_msg=None) -> None:
         """
         Initialize menu
 
@@ -13,7 +13,7 @@ class Menu:
           ------
             >>> def some_function(param1=1, **kwargs):
             ...     pass
-            >>> mn = Menu(items=[{'label': 'sample 1', 'callback': some_function, 'args': (), 'kwargs'={}}])
+            >>> mn = Menu()
 
         :param items: menu items. list of dictionaries
         :type items: list
@@ -46,7 +46,7 @@ class Menu:
         else:
             self.items = []
 
-    def run(self, header=None, choose_msg=None):
+    def run(self, header=None, choose_msg=None) -> None:
         """
         Display menu
         :param header: header message
@@ -93,7 +93,7 @@ class Menu:
         self.results = call_func(*args, **kwargs)
         return self.results
 
-    def set_exit_item(self, label=None, callable=None, args=None, kwargs=None):
+    def set_exit_item(self, label=None, callable=None, args=None, kwargs=None) -> None:
         """
         Set exit item
         :param label: exit item label
@@ -113,7 +113,7 @@ class Menu:
             'kwargs': kwargs if kwargs else {}
         })
 
-    def get_choice(self):
+    def get_choice(self) -> None:
         """
         Manipulate user's choice
         """
@@ -130,8 +130,9 @@ class Menu:
         Clear terminal
         """
         os.system('clear')
+        return True
 
-    def add_item(self, item=None, label=None, callback=None, args=None, kwargs=None):
+    def add_item(self, item=None, label=None, callback=None, args=None, kwargs=None) -> None:
         """
         Add menu item
         :param item: menu item
@@ -157,7 +158,7 @@ class Menu:
                 'kwargs': kwargs if kwargs else {}
             })
 
-    def print_row(self, idx, label):
+    def print_row(self, idx, label) -> None:
         """
         Print Every row (numeric and label)
         :param idx: numeric
@@ -172,7 +173,7 @@ class Menu:
         ln_patt = '%s [%s] %s %s %s %s' % (num_st, num_patt, self.colors.reset, labl_st, '%s', self.colors.reset)
         print(ln_patt % (idx, label))
 
-    def set_colors(self, **kwargs):
+    def set_colors(self, **kwargs) -> None:
         """
         Set colors for the output
         :param kwargs:
