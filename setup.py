@@ -1,9 +1,6 @@
 from pyclimenu import __version__
 from distutils.core import setup
 
-def readme():
-    with open('README.rst') as f:
-        return f.read()
 setup(
   name = 'pyclimenu',
   packages = ['pyclimenu'],
@@ -17,5 +14,4 @@ setup(
   include_package_data=True,
   classifiers = [],
   zip_safe=False,
-  long_description=readme()
 )
