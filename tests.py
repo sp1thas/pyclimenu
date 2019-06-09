@@ -1,5 +1,4 @@
 import unittest
-import json
 from pyclimenu import Menu
 
 def a():
