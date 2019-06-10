@@ -25,6 +25,6 @@ results = mn.run(header='pyclimenu')
 results
 1
 ```
-![](imgs/display.png)
+![menu](imgs/display.png)
 
 ## Todo
