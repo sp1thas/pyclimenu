@@ -1,5 +1,6 @@
 # pyclimenu
-![build](https://travis-ci.org/sp1thas/pyclimenu.svg?branch=master)
+![build](https://travis-ci.org/sp1thas/pyclimenu.svg?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ecdea75af44541ef91e3ec465592cc32)](https://www.codacy.com/app/sp1thas/pyclimenu?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sp1thas/pyclimenu&amp;utm_campaign=Badge_Grade)
+
 This python module creates simple command line menus. Just define the callable and the label of each option and voila!
 Foreground, background color numbering and labels are adjustable.
 
