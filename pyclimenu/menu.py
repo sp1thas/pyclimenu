@@ -1,7 +1,7 @@
-from __future__ import print_function
+from __future__ import print_function, absolute_import
 import sys
-import os
-from .colors import Colors
+import subprocess
+from pyclimenu.colors import Colors
 
 
 class Menu:
@@ -35,7 +35,7 @@ class Menu:
         self.set_exit_item()
         self.choose_msq = 'Select option: > '
         self.exit_item = {
-            'label': 'Exit',
+            'label': exit_msg if exit_msg else 'Exit',
             'callback': sys.exit
         }
         if isinstance(items, list):
@@ -93,13 +93,13 @@ class Menu:
         self.results = call_func(*args, **kwargs)
         return self.results
 
-    def set_exit_item(self, label=None, callable=None, args=None, kwargs=None) -> None:
+    def set_exit_item(self, label=None, clb=None, args=None, kwargs=None) -> None:
         """
         Set exit item
         :param label: exit item label
         :type label: str
-        :param callable: exit callable
-        :type callable: callable
+        :param clb: exit clb
+        :type clb: callable
         :param args: exit arguments
         :type args: tuple
         :param kwargs; exit keyword argument
@@ -108,12 +108,12 @@ class Menu:
         """
         self.add_item({
             'label': label if label else 'Exit',
-            'callable': callable if callable else sys.exit,
+            'clb': clb if clb else sys.exit,
             'args': args if args else (),
             'kwargs': kwargs if kwargs else {}
         })
 
-    def get_choice(self) -> None:
+    def get_choice(self):
         """
         Manipulate user's choice
         """
@@ -129,18 +129,18 @@ class Menu:
         """
         Clear terminal
         """
-        os.system('clear')
+        subprocess.call(['clear'])
         return True
 
-    def add_item(self, item=None, label=None, callback=None, args=None, kwargs=None) -> None:
+    def add_item(self, item=None, label=None, clb=None, args=None, kwargs=None) -> None:
         """
         Add menu item
         :param item: menu item
         :type item: dict
         :param label: item label
         :type label: str
-        :param callback: item callback function
-        :type callback: function
+        :param clb: item callback function
+        :type clb: function
         :param args: function args
         :type args: tuple
         :param kwargs: function kwargs
@@ -152,8 +152,8 @@ class Menu:
             self.items.append(item)
         else:
             self.items.append({
-                'label': label if label else callback.__name__,
-                'callback': callback,
+                'label': label if label else clb.__name__,
+                'callback': clb,
                 'args': args if args else (),
                 'kwargs': kwargs if kwargs else {}
             })
@@ -190,31 +190,18 @@ class Menu:
             self.num_bld = self.colors.bold
         num_fg = kwargs.get('num_fg')
         if num_fg:
-            self.num_fg = getattr(self.colors.fg, num_fg)
+            self.num_fg = getattr(self.colors.Fg, num_fg)
         num_bg = kwargs.get('num_bg')
         if num_bg:
-            self.num_bg = getattr(self.colors.bg, num_bg)
+            self.num_bg = getattr(self.colors.Bg, num_bg)
 
         label_bld = kwargs.get('label_bold')
         if label_bld:
             self.label_bld = self.colors.bold
         label_fg = kwargs.get('label_fg')
         if label_fg:
-            self.label_fg = getattr(self.colors.fg, label_fg)
+            self.label_fg = getattr(self.colors.Fg, label_fg)
         label_bg = kwargs.get('label_bg')
         if label_bg:
-            self.label_bg = getattr(self.colors.bg, label_bg)
+            self.label_bg = getattr(self.colors.Bg, label_bg)
 
-
-if __name__ == '__main__':
-    def a():
-        print('''
-        Let's Rock!
-        ''')
-    mn = Menu()
-    mn.add_item(label=None, callback=a, args=(), kwargs={})
-    mn.add_item(label='to create', callback=a, args=(), kwargs={})
-    mn.add_item(label='command line menus', callback=a, args=(), kwargs={})
-    mn.set_exit_item(label='ooookso re')
-    mn.set_colors(num_fg='cyan', num_bld=True, label_fg='blue', label_bld=True)
-    mn.run(header='pyclimenu')

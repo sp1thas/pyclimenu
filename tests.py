@@ -1,6 +1,7 @@
 import unittest
 from pyclimenu import Menu
 
+
 def a():
     print('''
     Let's Rock!
@@ -16,8 +17,9 @@ class TestPyCLIMenu(unittest.TestCase):
         self.assertTrue(bool(self.menu))
 
     def test_add_item(self) -> None:
-        self.menu.add_item(label=None, callback=a, args=(), kwargs={})
+        self.menu.add_item(clb=a, args=(), kwargs={})
         self.assertEqual(len(self.menu.items), 1)
+
 
 if __name__ == '__main__':
     unittest.main()
