@@ -117,12 +117,19 @@ class Menu:
         """
         Manipulate user's choice
         """
-        try:
-            choice = input(self.choose_msq)
-            return int(choice)
-        except KeyboardInterrupt:
-            print('Exiting...')
-            sys.exit()
+        choice = ""
+        while True:
+            try:
+                choice = input(self.choose_msq)
+            except KeyboardInterrupt:
+                print('Exiting...')
+                sys.exit()
+            if not choice.isdigit():
+                print("{}Please provide an integer as input{}".format(self.colors.Fg.lightred, self.colors.reset))
+            elif int(choice) > len(self.items) or int(choice) < 0:
+                print("{}Provide an integer between 0 and {} {}".format(self.colors.Fg.lightred, len(self.items) - 1, self.colors.reset))
+            else:
+                return int(choice)
 
     @staticmethod
     def clear():
@@ -149,7 +156,9 @@ class Menu:
         :rtype: None
         """
         if item:
-            self.items.append(item)
+            if not item.get("label"):
+                item["label"] = item.get("clb").__name__
+
         else:
             self.items.append({
                 'label': label if label else clb.__name__,
