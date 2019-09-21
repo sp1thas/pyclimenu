@@ -18,12 +18,12 @@ def a():
     ''')
     return 1
 mn = Menu()
-mn.add_item(label='The easy way', callback=a, args=())
-mn.add_item(label='to create', callback=a, kwargs={})
-mn.add_item(label='command line menus', callback=a)
+mn.add_item(label='The easy way', clb=a, args=())
+mn.add_item(label='to create', clb=a, kwargs={})
+mn.add_item(label='command line menus', clb=a)
 mn.set_colors(num_fg='cyan', num_bld=True, label_fg='blue', label_bld=True)
 results = mn.run(header='pyclimenu')
-results
+results 
 1
 ```
 ![menu](imgs/display.png)
