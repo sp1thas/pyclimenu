@@ -1,9 +1,9 @@
 from pyclimenu import __version__
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
   name='pyclimenu',
-  packages=['pyclimenu'],
+  packages=find_packages(),
   version=__version__,
   description='The easy way to create command line menus',
   author='Panagiotis Simakis',

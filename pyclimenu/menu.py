@@ -72,7 +72,7 @@ class Menu:
                 continue
             else:
                 break
-        self.run_choice(choice)
+        return self.run_choice(choice)
 
     def run_choice(self, idx=None):
         """
