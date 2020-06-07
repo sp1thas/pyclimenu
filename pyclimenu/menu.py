@@ -1,26 +1,29 @@
-from __future__ import print_function, absolute_import
+from __future__ import print_function
+import typing
 import sys
 import subprocess
-from pyclimenu.colors import Colors
+from .colors import Colors
 
 
 class Menu:
-    def __init__(self, items=None, exit_msg=None) -> None:
-        """
-        Initialize menu
+    """Menu class
 
-          Usage:
-          ------
-            >>> def some_function(param1=1, **kwargs):
-            ...     pass
-            >>> mn = Menu()
+    Usage:
+    ------
+        >>> from pyclimenu import Menu
+        >>> def some_function(param1=1, **kwargs):
+        ...     pass
+        >>>
+        >>> mn = Menu()
+        >>> mn.add_item(label='callable label', clb=some_function)
+        >>> mn.add_value_item(3, 'value label')
+        >>> result = mn.run()
+    """
+    def __init__(self, items: typing.List[typing.Dict] = None, exit_msg: typing.AnyStr = None) -> typing.NoReturn:
+        """Initialize menu
 
         :param items: menu items. list of dictionaries
-        :type items: list
         :param exit_msg: exit message
-        :type exit_msg: str
-        :return: Nada
-        :rtype: None
         """
 
         self.colors = Colors()
@@ -46,15 +49,11 @@ class Menu:
         else:
             self.items = []
 
-    def run(self, header=None, choose_msg=None) -> None:
-        """
-        Display menu
+    def run(self, header: typing.AnyStr = None, choose_msg: typing.Any = None) -> typing.NoReturn:
+        """Display menu
+
         :param header: header message
-        :type header: str
-        :choose_msg: Prompt choose message
-        :type choose_msg: str
-        :return: Nada
-        :rtype: None
+        :param choose_msg: Prompt choose message
         """
         self.clear()
         if choose_msg:
@@ -74,13 +73,10 @@ class Menu:
                 break
         return self.run_choice(choice)
 
-    def run_choice(self, idx=None):
-        """
-        Run user's choice
+    def run_choice(self, idx: int = None) -> typing.Any:
+        """Run user's choice
+
         :param idx: item index
-        :type idx: int
-        :return: Nada
-        :rtype: None
         """
         if idx == len(self.items):
             call_func = self.exit_item.get('callback')
@@ -93,18 +89,14 @@ class Menu:
         self.results = call_func(*args, **kwargs)
         return self.results
 
-    def set_exit_item(self, label=None, clb=None, args=None, kwargs=None) -> None:
-        """
-        Set exit item
+    def set_exit_item(self, label: typing.AnyStr = None, clb: typing.Callable = None, args: typing.Tuple = None,
+                      kwargs: typing.Dict = None) -> typing.NoReturn:
+        """Set exit item
+
         :param label: exit item label
-        :type label: str
         :param clb: exit clb
-        :type clb: callable
         :param args: exit arguments
-        :type args: tuple
-        :param kwargs; exit keyword argument
-        :type kwargs: dictionary
-        :return; Nada
+        :param kwargs: exit keyword argument
         """
         self.add_item({
             'label': label if label else 'Exit',
@@ -113,11 +105,9 @@ class Menu:
             'kwargs': kwargs if kwargs else {}
         })
 
-    def get_choice(self):
+    def get_choice(self) -> int:
+        """Manipulate user's choice
         """
-        Manipulate user's choice
-        """
-        choice = ""
         while True:
             try:
                 choice = input(self.choose_msq)
@@ -127,33 +117,28 @@ class Menu:
             if not choice.isdigit():
                 print("{}Please provide an integer as input{}".format(self.colors.Fg.lightred, self.colors.reset))
             elif int(choice) > len(self.items) or int(choice) < 0:
-                print("{}Provide an integer between 0 and {} {}".format(self.colors.Fg.lightred, len(self.items) - 1, self.colors.reset))
+                print("{}Provide an integer between 0 and {} {}".format(
+                        self.colors.Fg.lightred, len(self.items) - 1, self.colors.reset))
             else:
                 return int(choice)
 
     @staticmethod
-    def clear():
-        """
-        Clear terminal
+    def clear() -> bool:
+        """Clear terminal
         """
         subprocess.call(['clear'])
         return True
 
-    def add_item(self, item=None, label=None, clb=None, args=None, kwargs=None) -> None:
-        """
-        Add menu item
+    def add_item(self, item: typing.Dict = None, label: typing.AnyStr = None, clb: typing.Callable = None,
+                 args: typing.Tuple = None, kwargs: typing.Dict = None) -> typing.NoReturn:
+        """Add menu item
+
         :param item: menu item
-        :type item: dict
         :param label: item label
-        :type label: str
         :param clb: item callback function
-        :type clb: function
         :param args: function args
-        :type args: tuple
         :param kwargs: function kwargs
-        :type kwargs: dict
         :return: Nada
-        :rtype: None
         """
         if item:
             if not item.get("label"):
@@ -167,22 +152,33 @@ class Menu:
                 'kwargs': kwargs if kwargs else {}
             })
 
-    def print_row(self, idx, label) -> None:
+    def add_value_item(self, value: typing.Any, label: typing.AnyStr) -> typing.NoReturn:
+        """Add item with specific value
+
+        :param value: item's value
+        :param label: item's label
         """
-        Print Every row (numeric and label)
+        self.items.append({
+            'label': label if label else str(value),
+            'callback': lambda x: x,
+            'args': (value,),
+            'kwargs': dict()
+        })
+
+    def print_row(self, idx: int, label: typing.AnyStr) -> typing.NoReturn:
+        """Print Every row (numeric and label)
+
         :param idx: numeric
-        :type idx: str or int
         :param label: Message
-        :type label: str
         :return: Nada
         """
         num_st = self.num_bg+self.num_bld+self.num_fg
-        labl_st = self.label_bg+self.label_bld+self.label_fg
+        label_st = self.label_bg+self.label_bld+self.label_fg
         num_patt = '%' + str(len(str(len(self.items)))) + 'd'
-        ln_patt = '%s [%s] %s %s %s %s' % (num_st, num_patt, self.colors.reset, labl_st, '%s', self.colors.reset)
+        ln_patt = '%s [%s] %s %s %s %s' % (num_st, num_patt, self.colors.reset, label_st, '%s', self.colors.reset)
         print(ln_patt % (idx, label))
 
-    def set_colors(self, **kwargs) -> None:
+    def set_colors(self, **kwargs) -> typing.NoReturn:
         """
         Set colors for the output
         :param kwargs:
@@ -190,7 +186,7 @@ class Menu:
             :num_fg: numbering foreground color
             :num_bg: numbering background color
             :label_bold: label bold
-            :label_fg: label foregroud color
+            :label_fg: label foreground color
             :label_bg: label background color
         :return: Nada
         """
@@ -213,4 +209,3 @@ class Menu:
         label_bg = kwargs.get('label_bg')
         if label_bg:
             self.label_bg = getattr(self.colors.Bg, label_bg)
-
