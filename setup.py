@@ -1,11 +1,17 @@
+import re
+
 from setuptools import setup, find_packages  # type: ignore
 
-from pyclimenu import __version__
+with open("./pyclimenu/__init__.py") as f:
+    version = re.findall(r"^__version__.*(\d+\.\d+\.\d+)", f.read(), flags=re.MULTILINE)
+    if not version:
+        raise ValueError("Module version not found.")
+    version = version[0]
 
 setup(
     name="pyclimenu",
     packages=find_packages(),
-    version=__version__,
+    version=version,
     description="The easy way to create command line menus",
     author="Panagiotis Simakis",
     author_email="simakis@autistici.org",

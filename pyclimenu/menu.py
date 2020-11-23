@@ -1,9 +1,20 @@
 from __future__ import print_function
-import typing
-import sys
+
 import subprocess
-from .colors import Colors
-from . import ExitItemDict
+import sys
+import typing
+
+from pyclimenu.colors import Colors
+
+if sys.version_info >= (3, 8):
+    from typing import TypedDict
+else:
+    from typing_extensions import TypedDict
+
+
+class ExitItemDict(TypedDict):
+    label: str
+    callback: typing.Callable
 
 
 class Menu:
