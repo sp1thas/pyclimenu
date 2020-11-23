@@ -26,5 +26,5 @@ jobs:
       uses: jpetrucciani/mypy-check@0.761
     - name: Run tests
       run: |
-        pip install pytest . -U
+        pip install pytest . typing-extensions -U
         pytest tests.py
