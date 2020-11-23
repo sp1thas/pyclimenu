@@ -1,10 +1,16 @@
+import sys
+from .menu import Menu
 import typing
 
-from .menu import Menu
+if sys.version_info >= (3, 8):
+    from typing import TypedDict
+else:
+    from typing_extensions import TypedDict
+
 
 __version__ = "0.1.15"
 
 
-class ExitItemDict(typing.TypedDict):
+class ExitItemDict(TypedDict):
     label: str
     callback: typing.Callable
