@@ -1,4 +1,4 @@
-name: Code Analysis and Tests
+name: Testing
 
 on:
   push:
@@ -20,11 +20,19 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Black Code Formatter
-      uses: lgeiger/black-action@v1.0.1
-    - name: Mypy Check
-      uses: jpetrucciani/mypy-check@0.761
     - name: Run tests
       run: |
-        pip install pytest . typing-extensions -U
-        pytest tests.py
+        pip install pytest pytest-cov . typing-extensions -U
+        pytest tests.py --cov=./ --cov-report=xml
+    - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+          files: ./coverage1.xml,./coverage2.xml
+          directory: ./coverage/reports/
+          flags: unittests
+          env_vars: OS,PYTHON
+          name: codecov-umbrella
+          fail_ci_if_error: true
+          path_to_write_report: ./coverage/codecov_report.txt
+          verbose: true
