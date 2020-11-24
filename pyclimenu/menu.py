@@ -3,6 +3,7 @@ from __future__ import print_function
 import subprocess
 import sys
 import typing
+import types
 
 from pyclimenu.colors import Colors
 
@@ -27,7 +28,7 @@ class Menu:
         ...     pass
         >>>
         >>> mn = Menu()
-        >>> mn.add_item(label='callable label', clb=some_function)
+        >>> mn.add_item(label='callable label', callback=some_function)
         >>> mn.add_value_item(3, 'value label')
         >>> result = mn.run()
     """
@@ -36,6 +37,7 @@ class Menu:
         self,
         items: typing.List[typing.Dict] = None,
         exit_msg: typing.Optional[str] = None,
+        exit_callback: typing.Optional[typing.Callable] = None,
     ) -> None:
         """Initialize menu
 
@@ -52,19 +54,17 @@ class Menu:
         self.label_fg = ""
         self.items: list = []
         self.results = None
-        self.set_exit_item()
         self.choose_msq = "Select option: > "
         self.exit_item: ExitItemDict = {
             "label": exit_msg if exit_msg is not None else "Exit",
-            "callback": sys.exit,
+            "callback": exit_callback if exit_callback is not None else sys.exit,  # type: ignore
         }
         if isinstance(items, list):
             for item in items:
                 self.add_item(item)
-        if isinstance(items, dict):
-            self.add_item(items)
         else:
             self.items = []
+        self.set_exit_item()
 
     def run(self, header: str = None, choose_msg: str = None) -> typing.Any:
         """Display menu
@@ -95,7 +95,7 @@ class Menu:
 
         :param idx: item index
         """
-        if idx == len(self.items):
+        if idx == len(self.items) - 1:
             call_func = self.exit_item["callback"]
             args = ()
             kwargs = {}
@@ -106,28 +106,9 @@ class Menu:
         self.results = call_func(*args, **kwargs)
         return self.results
 
-    def set_exit_item(
-        self,
-        label: typing.AnyStr = None,
-        clb: typing.Callable = None,
-        args: typing.Tuple = None,
-        kwargs: typing.Dict = None,
-    ) -> None:
-        """Set exit item
-
-        :param label: exit item label
-        :param clb: exit clb
-        :param args: exit arguments
-        :param kwargs: exit keyword argument
-        """
-        self.add_item(
-            {
-                "label": label if label else "Exit",
-                "clb": clb if clb else sys.exit,
-                "args": args if args else (),
-                "kwargs": kwargs if kwargs else {},
-            }
-        )
+    def set_exit_item(self) -> None:
+        """Set exit item"""
+        self.add_item(self.exit_item)  # type: ignore
 
     def get_choice(self) -> int:
         """Manipulate user's choice"""
@@ -162,7 +143,7 @@ class Menu:
         self,
         item: typing.Dict = None,
         label: typing.AnyStr = None,
-        clb: typing.Callable = None,
+        callback: typing.Callable = None,
         args: typing.Tuple = None,
         kwargs: typing.Dict = None,
     ) -> None:
@@ -170,41 +151,45 @@ class Menu:
 
         :param item: menu item
         :param label: item label
-        :param clb: item callback function
+        :param callback: item callback function
         :param args: function args
         :param kwargs: function kwargs
         :return: Nada
         """
-        if item:
-            if item.get("label") is not None:
-                item["label"] = item["clb"].__name__
 
-        else:
-            self.items.append(
-                {
-                    "label": label
-                    if label
-                    else clb.__name__
-                    if clb is not None
-                    else "",
-                    "callback": clb,
-                    "args": args if args else (),
-                    "kwargs": kwargs if kwargs else {},
-                }
-            )
+        params = {
+            "label": label,
+            "callback": callback,
+            "args": args if args else (),
+            "kwargs": kwargs if kwargs else {},
+        }
 
-    def add_value_item(self, value: typing.Any, label: typing.AnyStr) -> None:
+        if item is None:
+            item = {}
+
+        for k, v in params.items():
+            if v is not None and k not in item:
+                item[k] = v
+
+        if item.get("label") is None:
+            item["label"] = item["callback"].__name__
+        self.items.append(item)
+
+    @staticmethod
+    def _value_callback(value):
+        return value
+
+    def add_value_item(self, value: typing.Any, label: str = None) -> None:
         """Add item with specific value
 
         :param value: item's value
         :param label: item's label
         """
-        self.items.append(
+        self.add_item(
             {
-                "label": label if label else str(value),
-                "callback": lambda x: x,
+                "label": label if label is not None else str(value),
+                "callback": self._value_callback,
                 "args": (value,),
-                "kwargs": dict(),
             }
         )
 

@@ -1,0 +1,5 @@
+[run]
+source = pyclimenu
+omit = *__init__*
+       tests.py
+       *colors.py
