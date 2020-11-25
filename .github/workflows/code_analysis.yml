@@ -24,7 +24,3 @@ jobs:
       uses: lgeiger/black-action@v1.0.1
     - name: Mypy Check
       uses: jpetrucciani/mypy-check@0.761
-    - name: Run tests
-      run: |
-        pip install pytest . typing-extensions -U
-        pytest tests.py
