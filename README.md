@@ -6,7 +6,7 @@ Foreground, background color numbering and labels are adjustable.
 
 ## Install
 ```bash
-pip install git+https://github.com/sp1thas/pyclimenu.git
+pip install pyclimenu
 ```
 
 ## Demo
@@ -19,11 +19,12 @@ def a():
     ''')
     return 1
 
-mn = Menu()
-mn.add_item(label="The easy way", callback=a, args=())
-mn.add_item(label="to create", callback=a, kwargs={})
-mn.add_item(label="command line menus", callback=a)
-mn.set_colors(num_fg="cyan", num_bld=True, label_fg="blue", label_bld=True)
+mn = Menu(items=[
+    {"label": "The easy way", "callback": a},
+    {"label": "to create", "callback": a},
+    {"label": "command line menus", "callback": a}
+])
+mn.set_colors(num_fg="cyan", num_bld=True, label_fg="blue", label_bl=True)
 
 results = mn.run(header="pyclimenu")
 print(results)
