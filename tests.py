@@ -1,5 +1,6 @@
 import sys
 import unittest
+from mock import patch
 
 from pyclimenu import Menu
 
@@ -98,6 +99,36 @@ class TestPyCLIMenu(unittest.TestCase):
     def test_menu_clear(self) -> None:
         menu = Menu()
         self.assertTrue(menu.clear())
+
+    def test_menu_input_check(self) -> None:
+        menu = Menu()
+        self.assertEqual(menu._check_input("1"), 1)
+        self.assertEqual(menu._check_input("a"), None)
+        self.assertEqual(menu._check_input("4"), None)
+
+    def test_menu_print_header(self) -> None:
+        menu = Menu()
+        self.assertIsNone(menu._print_header("header"))
+
+    def test_menu_print_rows(self) -> None:
+        menu = Menu()
+        menu._print_rows()
+
+    @patch("builtins.input", lambda *args: "13")
+    def test_menu_get_input(self) -> None:
+        menu = Menu()
+        self.assertEqual(menu._get_input(), "13")
+
+    @patch("builtins.input", lambda *args: "0")
+    def test_menu_run(self) -> None:
+        menu = Menu(items=[{"label": "a", "callback": a}])
+        self.assertEqual(menu.run(choose_msg="test"), None)
+
+    @patch("builtins.input", lambda *args: "15")
+    def test_menu_run_out_of_range(self) -> None:
+        menu = Menu(items=[{"label": "a", "callback": a}])
+        with self.assertRaises(TypeError):
+            self.assertEqual(menu.run(choose_msg="test"), None)
 
 
 if __name__ == "__main__":

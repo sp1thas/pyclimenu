@@ -66,6 +66,17 @@ class Menu:
             self.items = []
         self.set_exit_item()
 
+    @staticmethod
+    def _print_header(header) -> None:
+        if header:
+            max_line_length = max(len(_) for _ in header.split("\n"))
+            print(" %s" % header)
+            print("", "-" * max_line_length)
+
+    def _print_rows(self) -> None:
+        for idx, item in enumerate(self.items):
+            self.print_row(idx, item.get("label", "no label"))
+
     def run(self, header: str = None, choose_msg: str = None) -> typing.Any:
         """Display menu
 
@@ -76,12 +87,8 @@ class Menu:
         if choose_msg:
             self.choose_msq = choose_msg
         while True:
-            if header:
-                max_line_length = max(len(_) for _ in header.split("\n"))
-                print(" %s" % header)
-                print("", "-" * max_line_length)
-            for idx, item in enumerate(self.items):
-                self.print_row(idx, item.get("label", "no label"))
+            self._print_header(header)
+            self._print_rows()
             choice = self.get_choice()
             if choice is False:
                 self.clear()
@@ -110,28 +117,38 @@ class Menu:
         """Set exit item"""
         self.add_item(self.exit_item)  # type: ignore
 
-    def get_choice(self) -> int:
+    def _get_input(self) -> str:
+        """Get input choice"""
+        return input(self.choose_msq)
+
+    def _check_input(self, choice: typing.Any) -> typing.Optional[int]:
+        """Check input"""
+        i = None
+        if not choice.isdigit():
+            print(
+                "{}Please provide an integer as input{}".format(
+                    self.colors.Fg.lightred, self.colors.reset
+                )
+            )
+        elif int(choice) > len(self.items) or int(choice) < 0:
+            print(
+                "{}Provide an integer between 0 and {} {}".format(
+                    self.colors.Fg.lightred, len(self.items) - 1, self.colors.reset
+                )
+            )
+        else:
+            i = int(choice)
+        return i
+
+    def get_choice(self) -> typing.Optional[int]:
         """Manipulate user's choice"""
         while True:
             try:
-                choice = input(self.choose_msq)
+                choice = self._get_input()
             except KeyboardInterrupt:
                 print("Exiting...")
                 sys.exit()
-            if not choice.isdigit():
-                print(
-                    "{}Please provide an integer as input{}".format(
-                        self.colors.Fg.lightred, self.colors.reset
-                    )
-                )
-            elif int(choice) > len(self.items) or int(choice) < 0:
-                print(
-                    "{}Provide an integer between 0 and {} {}".format(
-                        self.colors.Fg.lightred, len(self.items) - 1, self.colors.reset
-                    )
-                )
-            else:
-                return int(choice)
+            return self._check_input(choice)
 
     @staticmethod
     def clear() -> bool:
