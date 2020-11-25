@@ -8,32 +8,30 @@ with open("./pyclimenu/__init__.py") as f:
         raise ValueError("Module version not found.")
     version = version[0]
 
-with open('README.md') as f:
+with open("README.md") as f:
     long_description = f.read()
 
 setup(
     name="pyclimenu",
-    packages=['pyclimenu'],
+    packages=["pyclimenu"],
     version=version,
     description="The easy way to create command line menus",
     author="Panagiotis Simakis",
     author_email="simakis@autistici.org",
     url="https://github.com/sp1thas/pyclimenu",
-    download_url="https://github.com/sp1thas/pyclimenu/archive/master.zip",
     keywords=["menu"],
     include_package_data=True,
-    zip_safe=False,
     long_description=long_description,
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     python_requires=">=3.6",
 )
